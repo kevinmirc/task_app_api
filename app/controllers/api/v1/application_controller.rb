@@ -24,4 +24,8 @@ class Api::V1::ApplicationController < ActionController::API
   def render_404_not_found
     render json: {error: "Not Found"}, status: 404
   end
+
+  def render_bad_request
+    render json: {errors: ["Bad Request"]}, status: 400
+  end
 end

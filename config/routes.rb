@@ -18,6 +18,12 @@ Rails.application.routes.draw do
       get 'tasks/:id' => 'tasks#show'
       put 'tasks/:id' => 'tasks#update'
       delete 'tasks/:id' => 'tasks#delete'
+
+      # assignments
+      get 'assignments' => 'assignments#index'
+      post 'assignments' => 'assignments#create'
+      get 'assignments/:id' => 'assignments#show'
+      delete 'assignments/:id' => 'assignments#delete'
     end
   end
 end

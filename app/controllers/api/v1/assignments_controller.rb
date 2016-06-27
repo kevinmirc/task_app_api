@@ -21,7 +21,7 @@ class Api::V1::AssignmentsController < Api::V1::ApplicationController
       Assignment.create!(user: User.find(params[:user_id]), task: task)
       render json: task, status: 201
     rescue
-      render json: {errors: ["Bad Request"]}, status: 400
+      render_bad_request
     end
   end
 

@@ -1,22 +1,23 @@
 class Api::V1::ApplicationController < ActionController::API
   include ActionController::Serialization
-  include ActionController::HttpAuthentication::Token::ControllerMethods
-
+  # include ActionController::HttpAuthentication::Token::ControllerMethods
   before_action :authenticate!
 
   private
 
   def authenticate!
-    authenticate_token || render_unauthorized
-  end
-
-  def authenticate_token
-    authenticate_with_http_token do |token,options|
-      User.find_by(authentication_token: token)
+    if request.headers[:token]
+      User.find_by(authentication_token: request.headers[:token]) || render_unauthorized
+    else
+      render_unauthorized
     end
   end
 
   def render_unauthorized
-    render json: {errors: ['Bad Credentials'] }, status: 401
+    render json: {errors: ['Bad Credentials.'] }, status: 401
+  end
+
+  def render_404_not_found
+    render json: {error: "Not Found"}, status: 404
   end
 end

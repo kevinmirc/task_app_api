@@ -18,6 +18,15 @@ class Api::V1::UsersController < Api::V1::ApplicationController
     end
   end
 
+  def show
+    begin
+      user = User.find(params[:id])
+      render json: user, status: 200
+    rescue
+      render_404_not_found
+    end
+  end
+
   private
 
   def user_params

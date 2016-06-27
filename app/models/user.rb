@@ -1,12 +1,9 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
 
   has_many :assignments 
   has_many :tasks, through: :assignments
-
-  validates :email, presence: true, uniqueness: { case_sensitive: false }
 
   before_save :verify_authentication_token
 
@@ -14,10 +11,10 @@ class User < ActiveRecord::Base
     Task.where(author: self)
   end
 
-  # def self.authenticate(credentials)
-  #   user = self.find_by(email: credentials[:email])
-  #   user if user && user.authenticate(credentials[:password])
-  # end
+  def self.authenticate(credentials)
+    user = self.find_by(email: credentials[:email])
+    user if user && user.authenticate(credentials[:password])
+  end
 
   private
 

@@ -26,6 +26,17 @@ class Api::V1::TasksController < Api::V1::ApplicationController
     end
   end
 
+  def update
+    begin
+      task = Task.find(params[:id])
+      task.update!(params.permit(:title, :description))
+      render json: task, status: 200
+    rescue
+      render_404_not_found
+    end
+    
+  end
+
   def delete
     begin
       task = Task.find(params[:id])

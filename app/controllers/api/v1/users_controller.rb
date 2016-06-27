@@ -27,6 +27,15 @@ class Api::V1::UsersController < Api::V1::ApplicationController
     end
   end
 
+  def find
+    begin
+      user = User.find_by!(email: params[:search])
+      render json: user, status: 200
+    rescue
+      render_404_not_found
+    end
+  end
+
   private
 
   def user_params

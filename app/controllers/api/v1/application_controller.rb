@@ -6,8 +6,8 @@ class Api::V1::ApplicationController < ActionController::API
   private
 
   def authenticate!
-    if request.headers[:token]
-      User.find_by(authentication_token: request.headers[:token]) || render_unauthorized
+    if request.headers['Auth-Token']
+      User.find_by(authentication_token: request.headers['Auth-Token']) || render_unauthorized
     else
       render_unauthorized
     end

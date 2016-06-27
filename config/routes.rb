@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get 'users' => 'users#index'
       get 'users/me' => 'users#me'
       post 'users/create' => 'users#create'
+      get 'users/find' => 'users#find'
       get 'users/:id' => 'users#show'
     end
   end

@@ -12,9 +12,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
         user: user
       }, status: 201
     else
-      render json: {
-        error: "User not created",
-      }, status: 400
+      render json: {errors: ["User not created"]}, status: 400
     end
   end
 

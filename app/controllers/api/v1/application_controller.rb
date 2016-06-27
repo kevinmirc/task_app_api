@@ -3,6 +3,10 @@ class Api::V1::ApplicationController < ActionController::API
   # include ActionController::HttpAuthentication::Token::ControllerMethods
   before_action :authenticate!
 
+  def current_user
+    User.find_by(authentication_token: request.headers['Auth-Token'])
+  end
+
   private
 
   def authenticate!

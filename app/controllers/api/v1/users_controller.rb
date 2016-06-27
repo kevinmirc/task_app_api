@@ -2,7 +2,8 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   skip_before_action :authenticate!, only: [:create]
 
   def index
-    render json: User.all
+    users = User.all
+    render json: users, status: 200
   end
 
   def create

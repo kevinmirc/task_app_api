@@ -48,3 +48,6 @@ end
 
 gem 'devise'
 gem 'figaro'
+
+gem 'active_model_serializers'
+gem 'rails-api'

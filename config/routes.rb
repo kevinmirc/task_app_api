@@ -5,10 +5,12 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      # sessions
+      post 'sessions' => 'sessions#create'
+
       # users
       get 'users' => 'users#index'
-      get 'users/me' => 'users#me'
-      post 'users/create' => 'users#create'
+      post 'users' => 'users#create'
       get 'users/find' => 'users#find'
       get 'users/:id' => 'users#show'
 

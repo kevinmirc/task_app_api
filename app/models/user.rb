@@ -13,9 +13,9 @@ class User < ActiveRecord::Base
 
   def self.authenticate(credentials)
     user = self.find_by(email: credentials[:email])
-    user if user && user.authenticate(credentials[:password])
+    user if user && user.valid_password?(credentials[:password])
   end
-
+  
   private
 
   def verify_authentication_token

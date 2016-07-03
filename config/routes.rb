@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       # sessions
       post 'sessions' => 'sessions#create'
+      post 'sessions/facebook' => 'sessions#facebook'
 
       # users
       get 'users' => 'users#index'

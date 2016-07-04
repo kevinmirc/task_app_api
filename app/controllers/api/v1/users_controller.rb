@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::ApplicationController
-  skip_before_action :authenticate!, only: [:create]
+  skip_before_action :authenticate!, only: [:create, :create_via_facebook]
 
   def index
     users = User.all

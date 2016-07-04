@@ -15,7 +15,7 @@ class Api::V1::SessionsController < Api::V1::ApplicationController
 
     if params[:facebook_token]
       facebook_user = get_facebook_user(params[:facebook_token])
-      user = User.find_by(email: facebook_user["email"])
+      user = User.find_by(email: facebook_user["email"]) || User.create(email: facebook_user["email"], password: Devise.friendly_token.first(10))
       render json: {user: user}, status: 200
     else
       render json: {messages: ["Missing paramater: `facebook_token`"]}, status: 400

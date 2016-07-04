@@ -18,11 +18,11 @@ class Api::V1::ApplicationController < ActionController::API
   end
 
   def render_unauthorized
-    render json: {errors: ['Bad Credentials.'] }, status: 401
+    render json: {errors: ["Bad Credentials"] }, status: 401
   end
 
   def render_404_not_found
-    render json: {error: "Not Found"}, status: 404
+    render json: {errors: ["Not Found"]}, status: 404
   end
 
   def render_bad_request

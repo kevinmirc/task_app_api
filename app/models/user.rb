@@ -7,6 +7,14 @@ class User < ActiveRecord::Base
 
   before_save :verify_authentication_token
 
+  def self.find_or_create_from_facebook_data!(facebook_info)
+    if facebook_info[:error]
+      return false
+    else
+      User.find_by(email: facebook_info[:email]) || User.create!(email: facebook_info[:email], password: Devise.friendly_token.first(10))
+    end
+  end
+
   def tasks_created
     Task.where(author: self)
   end

@@ -11,22 +11,29 @@ class Api::V1::SessionsController < Api::V1::ApplicationController
   end
 
   def facebook
-    require 'net/http'
-
-    if params[:facebook_token]
-      facebook_user = get_facebook_user(params[:facebook_token])
-      user = User.find_by(email: facebook_user["email"]) || User.create(email: facebook_user["email"], password: Devise.friendly_token.first(10))
-      render json: {user: user}, status: 200
+    if !params[:facebook_token]
+      respond_with_missing_params_error("facebook_token") 
     else
-      render json: {messages: ["Missing paramater: `facebook_token`"]}, status: 400
+      facebook_response = get_facebook_user(params[:facebook_token])
+
+      if facebook_response[:error]
+        render json: {errors: [facebook: facebook_response[:error]]}, status: 400
+      else
+        if user = User.find_or_create_from_facebook_data!(facebook_response)
+          render json: {user: user}, status: 200
+        else
+          render json: {errors: ["Problem creating/finding user via facebook"]}, status: 500
+        end
+      end
     end
   end
 
   private
 
   def get_facebook_user(token)
-    uri = URI.parse("https://graph.facebook.com/v2.6/me?fields=id%2Cname%2Cemail&access_token=" + params[:facebook_token])
+    require 'net/http'
+    uri = URI.parse("https://graph.facebook.com/v2.6/me?fields=id%2Cname%2Cemail&access_token=" + token)
     res = Net::HTTP.get_response(uri)
-    facebook_user = JSON.parse(res.body)
+    res = eval(res.body)
   end
 end

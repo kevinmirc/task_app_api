@@ -123,6 +123,23 @@ request.post(uri + 'sessions', params, (err, res, body) => {
 });
 ```
 
+`POST /sessions/facebook` will find or create a user based on a facebook token, and return that user with their access_token
+```
+params = {
+  form: 
+  {
+    facebook_token: 'your_facebook_token'
+  }
+}
+
+request.post(uri + 'sessions/facebook', params, (err, res, body) => {
+  if (err) { throw err };
+  console.log(res.statusCode);
+  console.log(body)
+});
+
+```
+
 ###Users
 
 `GET /users` to return all users
@@ -155,6 +172,7 @@ request.get(uri + 'users/3', params, (err, res, body) => {
   console.log(body)
 });
 ```
+
 `POST /users` to create a user:
 ```
 params = {
